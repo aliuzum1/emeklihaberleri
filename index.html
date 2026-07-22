@@ -1,26 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emekli Gündemi - Güncel SGK ve Emekli Haberleri</title>
+    <meta name="description" content="Türkiye'deki emekliler için güncel SGK duyuruları ve maaş rehberleri.">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0d9488;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { background: linear-gradient(135deg, var(--primary), #3b82f6); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        header h1 { font-size: 2rem; margin-bottom: 10px; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .news-grid { display: grid; gap: 20px; }
+        .news-card { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
+        .news-title { font-size: 1.15rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); text-decoration: none; display: block; line-height: 1.5; }
+        .news-title:hover { color: var(--secondary); }
+        .news-footer { display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 12px; }
+        .read-btn { background: var(--primary); color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; display: inline-block; }
+        .read-btn:hover { background: #1d4ed8; }
+        .loading { text-align: center; padding: 40px; font-size: 1.2rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Emekli Gündemi</h1>
+            <p>SGK, emekli maaşları ve güncel gelişmeler.</p>
+        </header>
+
+        <div class="news-grid" id="newsContainer">
+            <div class="loading">🔄 Haberler yükleniyor...</div>
+        </div>
+    </div>
+
     <script>
         fetch('news.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Dosya bulunamadı');
+                }
+                return response.json();
+            })
             .then(data => {
                 const container = document.getElementById('newsContainer');
-                if (data.length > 0) {
+                if (data && data.length > 0) {
                     container.innerHTML = '';
                     data.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'news-card';
                         card.innerHTML = `
                             <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
-                            <div class="news-footer" style="justify-content: flex-end; margin-top: 15px;">
+                            <div class="news-footer">
                                 <a href="${item.link}" target="_blank" class="read-btn">Habere Git &rarr;</a>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    container.innerHTML = '<p style="text-align:center;">Henüz haber bulunamadı.</p>';
+                    container.innerHTML = '<p style="text-align:center; padding:20px;">Henüz duyuru bulunamadı.</p>';
                 }
             })
             .catch(error => {
-                document.getElementById('newsContainer').innerHTML = '<p style="text-align:center; color:red;">Haberler yüklenirken bir hata oluştu.</p>';
+                console.error('Hata:', error);
+                document.getElementById('newsContainer').innerHTML = '<p style="text-align:center; color:red; padding:20px; font-weight:bold;">Haberler yüklenirken bir hata oluştu.</p>';
             });
     </script>
+</body>
+</html>
