@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emekli Gündemi - Canlı SGK ve Emekli Haberleri</title>
-    <meta name="description" content="Türkiye'nin 81 ilindeki emekliler için güncel ve gerçek SGK duyuruları, maaş rehberleri ve son dakika haberleri.">
-    
-    <!-- Google AdSense Doğrulama ve Hesap Etiketi -->
-    <meta name="google-adsense-account" content="ca-pub-4346551902420368">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4346551902420368" crossorigin="anonymous"></script>
-
+    <title>Emekli Gündemi - Güncel SGK ve Emekli Haberleri</title>
+    <meta name="description" content="Türkiye'deki emekliler için güncel SGK duyuruları ve maaş rehberleri.">
     <style>
         :root {
             --primary: #1e3a8a;
@@ -18,9 +13,6 @@
             --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --success: #15803d;
-            --success-bg: #dcfce7;
-            --danger: #dc2626;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; }
@@ -28,128 +20,56 @@
         header { background: linear-gradient(135deg, var(--primary), #3b82f6); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         header h1 { font-size: 2rem; margin-bottom: 10px; }
         header p { font-size: 1.1rem; opacity: 0.9; }
-        
-        .audio-global-control { background: #e0f2fe; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #bae6fd; flex-wrap: wrap; gap: 10px; }
-        .stop-btn { background: var(--danger); color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .stop-btn:hover { background: #b91c1c; }
-
         .news-grid { display: grid; gap: 20px; }
-        .news-card { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); transition: transform 0.2s; }
-        .news-card:hover { transform: translateY(-2px); }
-        .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-        .source-badge { background: #e2e8f0; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; color: var(--text-main); }
-        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; background: var(--success-bg); color: var(--success); }
-        
+        .news-card { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
         .news-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 10px; color: var(--primary); text-decoration: none; display: block; }
         .news-title:hover { color: var(--secondary); }
         .news-summary { color: var(--text-muted); margin-bottom: 15px; font-size: 1.05rem; }
         .news-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; border-top: 1px solid #f1f5f9; padding-top: 10px; flex-wrap: wrap; gap: 10px; }
-        
         .read-btn { background: var(--primary); color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.9rem; display: inline-block; }
         .read-btn:hover { background: #1d4ed8; }
-
-        .ad-container { background: #ffffff; padding: 15px; border-radius: 8px; text-align: center; border: 1px dashed #cbd5e1; margin: 20px 0; }
         .loading { text-align: center; padding: 40px; font-size: 1.2rem; color: var(--text-muted); }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🛡️ Emekli Gündemi (Canlı Haberler)</h1>
-            <p>Türkiye geneli SGK, emekli maaşları ve güncel gelişmeler anlık olarak burada yayınlanmaktadır.</p>
+            <h1>🛡️ Emekli Gündemi</h1>
+            <p>SGK, emekli maaşları ve güncel gelişmeler.</p>
         </header>
 
-        <!-- Google AdSense Reklam Alanı -->
-        <div class="ad-container">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4346551902420368"
-                 crossorigin="anonymous"></script>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4346551902420368"
-                 data-ad-slot="8439247854"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-
-        <div class="audio-global-control">
-            <span>🔊 Seçilen haberi sesli dinlemek için detay sayfasındaki ses butonunu kullanabilirsiniz.</span>
-            <button class="stop-btn" onclick="stopSpeech()">Sesi Durdur ⏹</button>
-        </div>
-
         <div class="news-grid" id="newsContainer">
-            <div class="loading">🔄 Canlı haberler yükleniyor, lütfen bekleyin...</div>
+            <div class="loading">🔄 Haberler yükleniyor...</div>
         </div>
     </div>
 
     <script>
-        // Canlı ve Gerçek Haberleri Çekme Fonksiyonu (Google News RSS üzerinden güncel SGK ve emekli haberleri)
-        async function fetchLiveNews() {
-            const container = document.getElementById('newsContainer');
-            const rssUrl = "https://news.google.com/rss/search?q=emekli+sgk+maas&hl=tr&gl=TR&ceid=TR:tr";
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                if (data.status === 'ok' && data.items.length > 0) {
-                    container.innerHTML = ''; // Yükleniyor yazısını temizle
-                    
-                    data.items.forEach((item, index) => {
-                        // HTML etiketlerini özet metninden temizle
-                        let cleanDescription = item.description.replace(/<[^>]*>?/gm, '');
-                        if(cleanDescription.length > 180) cleanDescription = cleanDescription.substring(0, 180) + "...";
-
+        fetch('news.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('newsContainer');
+                if (data.length > 0) {
+                    container.innerHTML = '';
+                    data.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'news-card';
                         card.innerHTML = `
-                            <div class="news-header">
-                                <span class="source-badge">📌 Kaynak: ${item.author || 'Google Haberler'}</span>
-                                <span class="status-badge">✅ Canlı ve Güncel</span>
-                            </div>
                             <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
-                            <p class="news-summary">${cleanDescription}</p>
+                            <p class="news-summary">${item.description}</p>
                             <div class="news-footer">
                                 <span>🕒 ${new Date(item.pubDate).toLocaleString('tr-TR')}</span>
-                                <div>
-                                    <button class="read-btn" style="background:var(--secondary); margin-right:5px; border:none; cursor:pointer;" onclick="readText('${item.title.replace(/'/g, "")}')">🔊 Dinle</button>
-                                    <a href="${item.link}" target="_blank" class="read-btn">Habere Git &rarr;</a>
-                                </div>
+                                <a href="${item.link}" target="_blank" class="read-btn">Habere Git &rarr;</a>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    container.innerHTML = '<p style="text-align:center; padding:20px;">Şu anda canlı haber alınamadı, lütfen daha sonra tekrar deneyin.</p>';
+                    container.innerHTML = '<p style="text-align:center;">Henüz haber bulunamadı.</p>';
                 }
-            } catch (error) {
-                container.innerHTML = '<p style="text-align:center; padding:20px; color:var(--danger);">Haberler yüklenirken bir bağlantı hatası oluştu.</p>';
-            }
-        }
-
-        function readText(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'tr-TR';
-                utterance.rate = 0.95;
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("Tarayıcınız sesli okuma özelliğini desteklemiyor.");
-            }
-        }
-
-        function stopSpeech() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-        }
-
-        // Sayfa açıldığında canlı haberleri çek
-        fetchLiveNews();
+            })
+            .catch(error => {
+                document.getElementById('newsContainer').innerHTML = '<p style="text-align:center; color:red;">Haberler yüklenirken bir hata oluştu.</p>';
+            });
     </script>
 </body>
 </html>
