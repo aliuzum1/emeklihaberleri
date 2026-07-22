@@ -1,47 +1,26 @@
-import json
-import urllib.request
-import xml.etree.ElementTree as ET
-import re
 
-# SGK ve emekli haberleri kaynak adresi
-rss_url = "https://news.google.com/rss/search?q=emekli+sgk+maas&hl=tr&gl=TR&ceid=TR:tr"
-
-try:
-    # Haberleri çek
-    req = urllib.request.Request(
-        rss_url, 
-        headers={'User-Agent': 'Mozilla/5.0'}
-    )
-    response = urllib.request.urlopen(req)
-    xml_data = response.read()
-
-    # XML verisini işle
-    root = ET.fromstring(xml_data)
-    articles = []
-
-    for item in root.findall('.//item'):
-        title = item.find('title').text if item.find('title') is not None else ""
-        link = item.find('link').text if item.find('link') is not None else ""
-        description = item.find('description').text if item.find('description') is not None else ""
-        pubDate = item.find('pubDate').text if item.find('pubDate') is not None else ""
-        
-        # HTML etiketlerini temizle ve özeti kısalt
-        clean_desc = re.sub('<[^<]+?>', '', description)
-        if len(clean_desc) > 180:
-            clean_desc = clean_desc[:180] + "..."
-
-        articles.append({
-            'title': title,
-            'link': link,
-            'description': clean_desc,
-            'pubDate': pubDate
-        })
-
-    # news.json dosyasına kaydet
-    with open('news.json', 'w', encoding='utf-8') as f:
-        json.dump(articles, f, ensure_ascii=False, indent=4)
-        
-    print("Haberler başarıyla güncellendi.")
-
-except Exception as e:
-    print(f"Hata oluştu: {e}")
+[
+    {
+        "title": "22Temmuz2026Bedeli Ödenecek İlaçlar Listesinde Yapılan Düzenlemeler Hakkında Duyuru 2026/28GENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/Bedeli-Odenecek-Ilaclar-Listesinde-Yapilan-Duzenlemeler-Hakkinda-Duyuru-202628-2026-07-22-04-37-32"
+    },
+    {
+        "title": "16Temmuz2026Bedeli Ödenecek İlaçlar Listesinde Yapılan Düzenlemeler Hakkında Duyuru 2026/27GENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/Bedeli-Odenecek-Ilaclar-Listesinde-Yapilan-Duzenlemeler-Hakkinda-Duyuru-202627-2026-07-16-10-37-53"
+    },
+    {
+        "title": "8Temmuz2026Bedeli Ödenecek İlaçlar Listesinde Yapılan Düzenlemeler Hakkında Duyuru 2026/26GENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/Bedeli-Odenecek-Ilaclar-Listesinde-Yapilan-Duzenlemeler-Hakkinda-Duyuru-202626-2026-07-08-12-25-52"
+    },
+    {
+        "title": "1Temmuz2026Bedeli Ödenecek İlaçlar Listesinde Yapılan Düzenlemeler Hakkında Duyuru 2026/25GENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/Bedeli-Odenecek-Ilaclar-Listesinde-Yapilan-Duzenlemeler-Hakkinda-Duyuru-202625-2026-07-01-04-56-06"
+    },
+    {
+        "title": "1Temmuz202601/07/2026 SUT Değişiklik Tebliği İşlenmiş Güncel 2013 SUTGENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/01072026-SUT-Degisiklik-Tebligi-Islenmis-Guncel-2013-SUT-2026-07-01-02-55-17"
+    },
+    {
+        "title": "1Temmuz202601/07/2026 Tarihli ve 33297 Sayılı Resmî Gazete’de Yayımlanan “Sosyal Güvenlik Kurumu Sağlık Uygulam...GENEL SAĞLIK SİGORTASI GENEL MÜDÜRLÜĞÜ",
+        "link": "https://www.sgk.gov.tr/duyuru/detay/01072026-Tarihli-ve-33297-Sayili-Resm-Gazetede-Yayimlanan-Sosyal-Guvenlik-Kurumu-Saglik-Uygulama-Tebliginde-Degisiklik-Yapilmasina-Dair-Teblig-2026-07-01-02-54-20"
+    }
