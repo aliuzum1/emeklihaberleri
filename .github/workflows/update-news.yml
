@@ -2,8 +2,8 @@ name: Otomatik Haber Güncelleme
 
 on:
   schedule:
-    - cron: '0 */2 * * *' # Her 2 saatte bir otomatik çalışır
-  workflow_dispatch: # GitHub panelinden istediğiniz an "Manuel" tetikleyebilirsiniz
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -25,5 +25,5 @@ jobs:
       - name: Değişiklikleri GitHub'a Otomatik Kaydet
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Otomatik haberler güncellendi (news.json)"
+          commit_message: "Otomatik haberler güncellendi"
           branch: main
