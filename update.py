@@ -1,47 +1,46 @@
+from datetime import datetime
 import json
-import urllib.request
-import xml.etree.ElementTree as ET
-import re
+from bs4 import BeautifulSoup
+import requests
 
-# SGK ve emekli haberleri kaynak adresi
-rss_url = "https://news.google.com/rss/search?q=emekli+sgk+maas&hl=tr&gl=TR&ceid=TR:tr"
 
-try:
-    # Haberleri çek
-    req = urllib.request.Request(
-        rss_url, 
-        headers={'User-Agent': 'Mozilla/5.0'}
-    )
-    response = urllib.request.urlopen(req)
-    xml_data = response.read()
+def fetch_sgk_news():
+  url = "https://www.sgk.gov.tr/duyuru"
+  headers = {
+      "User-Agent": (
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,"
+          " like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      )
+  }
 
-    # XML verisini işle
-    root = ET.fromstring(xml_data)
-    articles = []
+  news_list = []
+  try:
+    response = requests.get(url, headers=headers, timeout=10)
+    if response.status_code == 200:
+      soup = BeautifulSoup(response.text, "html.parser")
 
-    for item in root.findall('.//item'):
-        title = item.find('title').text if item.find('title') is not None else ""
-        link = item.find('link').text if item.find('link') is not None else ""
-        description = item.find('description').text if item.find('description') is not None else ""
-        pubDate = item.find('pubDate').text if item.find('pubDate') is not None else ""
-        
-        # HTML etiketlerini temizle ve özeti kısalt
-        clean_desc = re.sub('<[^<]+?>', '', description)
-        if len(clean_desc) > 180:
-            clean_desc = clean_desc[:180] + "..."
+      for item in soup.find_all("a", href=True):
+        title = item.get_text(strip=True)
+        link = item["href"]
 
-        articles.append({
-            'title': title,
-            'link': link,
-            'description': clean_desc,
-            'pubDate': pubDate
-        })
+        if title and len(title) > 15:
+          if not link.startswith("http"):
+            link = "https://www.sgk.gov.tr" + link
 
-    # news.json dosyasına kaydet
-    with open('news.json', 'w', encoding='utf-8') as f:
-        json.dump(articles, f, ensure_ascii=False, indent=4)
-        
-    print("Haberler başarıyla güncellendi.")
+          keywords = ["emekli", "maaş", "sigorta", "prim", "tebliğ", "duyuru"]
+          if any(kw in title.lower() for kw in keywords):
+            if not any(n["title"] == title for n in news_list):
+              news_list.append({
+                  "title": title,
+                  "link": link,
+                  "date": datetime.now().strftime("%Y-%m-%d"),
+              })
+  except Exception as e:
+    print(f"Hata: {e}")
 
-except Exception as e:
-    print(f"Hata oluştu: {e}")
+  with open("news.json", "w", encoding="utf-8") as f:
+    json.dump(news_list[:15], f, ensure_ascii=False, indent=4)
+
+
+if __name__ == "__main__":
+  fetch_sgk_news()
